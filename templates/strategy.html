@@ -191,7 +191,7 @@ function drawPort() {
 }
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".driver-node input").forEach(i => i.addEventListener("input", whatIf));
-  wiReset.addEventListener("click", () => { document.querySelectorAll(".driver-node").forEach(n => { n.querySelector("input").value = SIM.params[n.dataset.k]; }); whatIf(); });
+  wiReset.addEventListener("click", () => { document.querySelectorAll(".driver-node").forEach(n => { const inp = n.querySelector("input"); inp.value = SIM.params[n.dataset.k]; Tower.paintRange(inp); }); whatIf(); });
   [beUplift, beYears, beEarn].forEach(el => el.addEventListener("input", drawBE));
   whatIf();
   document.querySelectorAll("#pfSel button").forEach(b => b.addEventListener("click", () => { document.querySelectorAll("#pfSel button").forEach(x => x.classList.remove("on")); b.classList.add("on"); PF = b.dataset.v; drawPort(); }));

@@ -140,7 +140,7 @@ const show = (k, v) => (fmtK[k] || (x => (Math.round(x * 1000) / 10).toFixed(1) 
 let LAST = null;
 
 function setInputs() {
-  document.querySelectorAll("#controls input[data-k]").forEach(i => { i.value = PARAMS[i.dataset.k]; document.querySelector(`[data-o="${i.dataset.k}"]`).textContent = show(i.dataset.k, PARAMS[i.dataset.k]); });
+  document.querySelectorAll("#controls input[data-k]").forEach(i => { i.value = PARAMS[i.dataset.k]; document.querySelector(`[data-o="${i.dataset.k}"]`).textContent = show(i.dataset.k, PARAMS[i.dataset.k]); Tower.paintRange(i); });
 }
 function readLines() {
   const lines = {};
@@ -241,11 +241,11 @@ function animateTo(target, dur) {
     const t0 = performance.now(), d = dur || 1100;
     const frame = now => {
       const k = Math.min(1, (now - t0) / d), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
-      inputs.forEach((i, j) => { i.value = from[j] + (target[i.dataset.k] - from[j]) * e; });
+      inputs.forEach((i, j) => { i.value = from[j] + (target[i.dataset.k] - from[j]) * e; Tower.paintRange(i); });
       const r = Pilot.simulate(collect(), CFG);
       paintDom(r);
       if (k < 1) requestAnimationFrame(frame);
-      else { inputs.forEach(i => { i.value = target[i.dataset.k]; i.classList.remove("driven"); }); res(run(true)); }
+      else { inputs.forEach(i => { i.value = target[i.dataset.k]; i.classList.remove("driven"); Tower.paintRange(i); }); res(run(true)); }
     };
     requestAnimationFrame(frame);
   });

@@ -147,6 +147,13 @@
       el._raf = requestAnimationFrame(step);
     },
     pulse(el) { if (!el) return; el.classList.remove("pulse"); void el.offsetWidth; el.classList.add("pulse"); },
+    /* Paint a range input's filled portion up to the thumb (Chrome/Edge/Safari; Firefox uses ::-moz-range-progress natively). */
+    paintRange(el) {
+      if (!el) return;
+      const min = parseFloat(el.min) || 0, max = parseFloat(el.max) || 100, val = parseFloat(el.value);
+      const pct = max > min ? Math.min(100, Math.max(0, (val - min) / (max - min) * 100)) : 0;
+      el.style.setProperty("--fill", pct + "%");
+    },
     refreshCharts() {
       this.applyChartTheme();
       Object.values(this.charts).forEach(c => {
@@ -400,6 +407,10 @@
       if (inp.title) return;
       const label = inp.closest(".form-row").querySelector("label");
       if (label) inp.title = label.textContent.trim();
+    });
+    document.querySelectorAll('input[type=range]').forEach(el => {
+      Tower.paintRange(el);
+      el.addEventListener("input", () => Tower.paintRange(el));
     });
     document.querySelectorAll("[data-p], .preset").forEach(el => { if (!el.title && el.dataset.p) el.title = "Apply the " + el.textContent.trim() + " preset"; });
   });

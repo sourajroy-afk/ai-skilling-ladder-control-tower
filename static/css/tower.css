@@ -360,9 +360,39 @@ a.alert:hover { outline: 1px solid var(--line); background: var(--line-soft); }
 .lever .satbar { height: 3px; background: var(--line-soft); margin-top: 6px; border-radius: 2px; overflow: hidden; }
 .lever .satbar span { display: block; height: 100%; background: var(--text-3); }
 .lever .hint { font-size: 11.5px; color: var(--text-3); margin-top: 4px; display: flex; justify-content: space-between; }
-input[type=range] { width: 100%; accent-color: var(--beam); margin-top: 8px; height: 20px; background: transparent; }
-input[type=range]::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; background: var(--line); }
-input[type=range]::-moz-range-track { height: 4px; border-radius: 2px; background: var(--line); }
+input[type=range] {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; margin: 10px 0 6px; height: 20px; background: transparent; cursor: pointer;
+}
+input[type=range] { --fill: 0%; }
+input[type=range]::-webkit-slider-runnable-track {
+  height: 6px; border-radius: 3px;
+  background: linear-gradient(to right, var(--beam) 0%, var(--beam) var(--fill), var(--line) var(--fill), var(--line) 100%);
+}
+input[type=range]::-moz-range-track { height: 6px; border-radius: 3px; background: var(--line); }
+input[type=range]::-moz-range-progress { height: 6px; border-radius: 3px; background: var(--beam); }
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 18px; height: 18px; border-radius: 50%; margin-top: -6px;
+  background: var(--beam); border: 3px solid var(--beam-ink);
+  box-shadow: 0 1px 3px rgba(0,0,0,.35), 0 0 0 0 rgba(255,230,0,.35);
+  transition: transform .12s ease, box-shadow .15s ease;
+}
+input[type=range]::-moz-range-thumb {
+  width: 18px; height: 18px; border-radius: 50%; border: 3px solid var(--beam-ink);
+  background: var(--beam); box-shadow: 0 1px 3px rgba(0,0,0,.35);
+  transition: transform .12s ease, box-shadow .15s ease;
+}
+input[type=range]:hover::-webkit-slider-thumb { transform: scale(1.12); }
+input[type=range]:hover::-moz-range-thumb { transform: scale(1.12); }
+input[type=range]:active::-webkit-slider-thumb { transform: scale(1.2); box-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 0 6px rgba(255,230,0,.25); }
+input[type=range]:active::-moz-range-thumb { transform: scale(1.2); box-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 0 6px rgba(255,230,0,.25); }
+input[type=range]:focus-visible { outline: none; }
+input[type=range]:focus-visible::-webkit-slider-thumb { box-shadow: 0 1px 3px rgba(0,0,0,.35), 0 0 0 4px color-mix(in srgb, var(--beam) 45%, transparent); }
+input[type=range]:focus-visible::-moz-range-thumb { box-shadow: 0 1px 3px rgba(0,0,0,.35), 0 0 0 4px color-mix(in srgb, var(--beam) 45%, transparent); }
+input[type=range]:disabled { cursor: not-allowed; opacity: .5; }
+input[type=range]:disabled::-webkit-slider-thumb { background: var(--text-3); border-color: var(--panel); transform: none; }
+input[type=range]:disabled::-moz-range-thumb { background: var(--text-3); border-color: var(--panel); transform: none; }
 .envelope { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 8px; background: var(--panel-2); margin-bottom: 8px; }
 .envelope .meter { flex: 1; height: 8px; background: var(--line-soft); border-radius: 4px; overflow: hidden; }
 .envelope .meter span { display: block; height: 100%; background: var(--beam); transition: width .2s; }
@@ -662,7 +692,10 @@ kbd { display: inline-block; padding: 1px 7px; border-radius: 4px; border: 1px s
 .demo-dots { display: flex; gap: 6px; margin-top: 8px; }
 .demo-dots i { width: 22px; height: 4px; border-radius: 2px; background: #4A4A58; transition: background .3s; }
 .demo-dots i.on { background: #FFE600; }
-input[type=range].driven { accent-color: #FF6D00; }
+input[type=range].driven::-webkit-slider-runnable-track { background: linear-gradient(to right, #FF6D00 0%, #FF6D00 var(--fill), var(--line) var(--fill), var(--line) 100%); }
+input[type=range].driven::-moz-range-progress { background: #FF6D00; }
+input[type=range].driven::-webkit-slider-thumb { background: #FF6D00; }
+input[type=range].driven::-moz-range-thumb { background: #FF6D00; }
 @media (max-width: 900px) { .demo-bar { grid-template-columns: 1fr; } .demo-stage { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { .funnel-row .bar, .hbar > i, .gate .gd { transition: none; } }
 
